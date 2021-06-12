@@ -40,6 +40,18 @@ Parameters description<br>
 
 # Example
 
+HDFS tree<br>
+
+* /user
+* /user/sb/dir1
+  * hello.txt
+* /user/sb/dir1/dir11/
+  * hello11.txt
+* /user/sb/dir11
+  * my11.txt
+* /user//sb/dir2
+  * hello2.txt
+
 
 
 
