@@ -31,6 +31,6 @@ test() {
   # main tablespace /tmp/xxxxx 
 }
 
-main
+main $@
 #test
 
