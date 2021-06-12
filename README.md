@@ -52,6 +52,24 @@ HDFS tree<br>
 * /user//sb/dir2
   * hello2.txt
 
+USERDIR=/user
 
+> ./hdownload.sh sb /tmp/download
+
+The downloaded directory structure
+> tree /tmp/download/
+```
+/tmp/download/
+└── sb
+    ├── dir1
+    │   ├── dir11
+    │   │   └── hello11.txt
+    │   └── hello.txt
+    ├── dir11
+    │   └── my11.txt
+    └── dir2
+        └── hello2.txt
+
+```
 
 
