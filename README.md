@@ -56,6 +56,7 @@ USERDIR=/user
 
 > ./hdownload.sh sb /tmp/download
 
+
 The downloaded directory structure
 > tree /tmp/download/
 ```
@@ -72,4 +73,11 @@ The downloaded directory structure
 
 ```
 
+Dryrun<br>
+> ./hdownload.sh sb /tmp/download 1
 
+# Several remarks
+
+* In case of any error an exception is thrown and downloading is stopped.
+* Application does not clean the local directory, if local directory is not empty then the content is overwritten.
+* Empty HDFS directories are not recreated in local directory
