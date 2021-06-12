@@ -18,8 +18,23 @@ The application downloads HTTP directory recursively with subdirectories. It use
 | WEBHDFSPORT | Port number | 14000 for HttpFS or 9870 WebHDFS (Cloudera) or 50070 (HDP)
 | WEBHDFSUSER | HDFS user accessing HDFS | Added as &user.name=WEBHDFSUSER to RestAPI URL
 | LOGFILE | Log file path name | /tmp/hdfs/log.txt
-| USERDIR | Root directory in HDFS for file downloading | /warehouse
+| USERDIR | Root directory in HDFS. Directory to download is a subdirectory of USERDIR | /warehouse
 
 # Usage 
+
+> ./hdownload.sh hdfsdir localdir (optional)dryrun) (optional) regular expression to select directories for downloading
+
+Parameters description<br>
+
+| Parameter | Description | Sample value |
+| -------- | ---------- | ----------- |
+| hdfsdir | Subdirectory of USERDIR to download  | dir
+| localdir | Local directory to store downloaded HDFS files | /tmp/download
+| dryrun (optional) | equal 1 means that HDFS tree is walked through but no file is downloaded | 1
+| regexp (optional) | regular expression used to select a subset of directory tree
+
+# Example
+
+
 
 
