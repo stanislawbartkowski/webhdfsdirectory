@@ -6,6 +6,11 @@ The application downloads HTTP directory recursively with subdirectories. It use
 
 > git clone https://github.com/stanislawbartkowski/webhdfsdirectory.git
 
+# Prereqs
+
+* Python3
+* requests: python3 -m pip install request3
+
 # Configuration
 
 > cd https://github.com/stanislawbartkowski/webhdfsdirectory.git<br>
