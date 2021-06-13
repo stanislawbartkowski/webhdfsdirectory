@@ -1,6 +1,8 @@
 WEBHDFSHOST=inimical1.fyre.ibm.com
 WEBHDFSPORT=9870
 WEBHDFSUSER="hdfs"
+
 LOGFILE=/tmp/webhdfsdir/log.txt
+DIRSCRIPT=../src
 
 USERDIR=/warehouse

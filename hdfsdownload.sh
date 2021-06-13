@@ -13,7 +13,7 @@ printhelp() {
 }
 
 main() {
-    required_listofvars WEBHDFSHOST WEBHDFSPORT WEBHDFSUSER USERDIR
+    required_listofvars "WEBHDFSHOST WEBHDFSPORT WEBHDFSUSER USERDIR DIRSCRIPT"
     HDFSDIR=$1
     LOCALDIR=$2
     DRYRUN=$3
@@ -21,7 +21,7 @@ main() {
     [ -z $HDFSDIR ] && printhelp
     [ -z $LOCALDIR ] && printhelp
     [ -z $DRYRUN ] && DRYRUN=0
-    python3 src/download.py $WEBHDFSHOST $WEBHDFSPORT $WEBHDFSUSER $USERDIR $HDFSDIR $LOCALDIR $DRYRUN $REGEXP
+    python3 $DIRSCRIPT/download.py $WEBHDFSHOST $WEBHDFSPORT $WEBHDFSUSER $USERDIR $HDFSDIR $LOCALDIR $DRYRUN $REGEXP
 }
 
 test() {
