@@ -1,5 +1,5 @@
-source resource.rc
-source commonproc.sh
+source ./resource.rc
+source ./commonproc.sh
 touchlogfile
 
 printhelp() {
