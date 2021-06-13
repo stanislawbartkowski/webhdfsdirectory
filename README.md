@@ -27,7 +27,7 @@ The application downloads HTTP directory recursively with subdirectories. It use
 
 # Usage 
 
-> ./hdownload.sh hdfsdir localdir (optional)dryrun) (optional) regular expression to select directories for downloading
+> ./hdfsdownload.sh hdfsdir localdir (optional)dryrun) (optional) regular expression to select directories for downloading
 
 Parameters description<br>
 
@@ -54,7 +54,7 @@ HDFS tree<br>
 
 USERDIR=/user
 
-> ./hdownload.sh sb /tmp/download
+> ./hdfsdownload.sh sb /tmp/download
 
 
 The downloaded directory structure
@@ -74,7 +74,7 @@ The downloaded directory structure
 ```
 
 Dryrun<br>
-> ./hdownload.sh sb /tmp/download 1
+> ./hdfsdownload.sh sb /tmp/download 1
 
 # Several remarks
 
