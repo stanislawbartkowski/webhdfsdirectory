@@ -1,0 +1,8 @@
+drwxr-xr-x   - sb supergroup          0 2021-06-13 00:45 /user/sb/dir1
+drwxr-xr-x   - sb supergroup          0 2021-06-13 00:46 /user/sb/dir1/dir11
+-rw-r--r--   3 sb supergroup          6 2021-06-13 00:46 /user/sb/dir1/dir11/hello11.txt
+-rw-r--r--   3 sb supergroup          6 2021-06-13 00:45 /user/sb/dir1/hello.txt
+drwxr-xr-x   - sb supergroup          0 2021-06-13 00:46 /user/sb/dir11
+-rw-r--r--   3 sb supergroup          6 2021-06-13 00:46 /user/sb/dir11/my11.txt
+drwxr-xr-x   - sb supergroup          0 2021-06-13 00:46 /user/sb/dir2
+-rw-r--r--   3 sb supergroup          6 2021-06-13 00:46 /user/sb/dir2/hello2.txt

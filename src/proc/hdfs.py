@@ -38,28 +38,20 @@ def bytesdownloaded(size):
     return "{0}B - {1}MB".format(str(size), str(GB))
 
 
-class HDFS:
+def splitremove(e, deli):
+    l = e.strip().split(deli)
+    # remove abundant spaces
+    return [e for e in l if len(e) > 0]
 
-    """ Downloads wenHDFS directory
 
-    Attributes:
-       WEBHDFSHOST : WebHDFS hostname
-       WEBHDFSPORT: WebHDFS port (non-secure)
-       WEBHDFSUSER: HDFS user used to authenticated, example: hdfs
-       DIRREG: Optional, regular expression used to select a subset of files to download.
-               If not present - download all files
-       dryrun: boolean, if true then browse only the directory tree and list files to download without downloading the content
-               default: false, browse directory tree and download
-    """
+class TRAVERSEHDFS:
 
-    def __init__(self, WEBHDFSHOST, WEBHDFSPORT, WEBHDFSUSER, DIRREG=None, dryrun=False):
+    def __init__(self, WEBHDFSHOST, WEBHDFSPORT, WEBHDFSUSER):
         self.WEBHDFSHOST = WEBHDFSHOST
         self.WEBHDFSPORT = WEBHDFSPORT
         self.WEBHDFSUSER = WEBHDFSUSER
-        self.DIRREG = DIRREG
-        self.dryrun = dryrun
 
-    """ List directory contend
+    """ List directory content
 
     Args:
       dir: HDFS directory to list
@@ -87,20 +79,55 @@ class HDFS:
 
         return list
 
-    def download(self, file, outfile):
-        """ Deprecated """
-        url = "http://{0}:{1}/webhdfs/v1{2}?op=OPEN&user.name={3}".format(
-            self.WEBHDFSHOST, self.WEBHDFSPORT, file, self.WEBHDFSUSER)
-        logging.info("Downloading:" + url)
-        with requests.get(url) as response:
-            if response.status_code == 200:
-                f = response.content.decode('utf-8')
-            else:
-                raise Exception(
-                    file + " download failed, response code different than 200:" + str(response.status_code))
-            logging.info("Writing: " + outfile)
-            with open(outfile, 'wb') as r:
-                r.write(response.content)
+
+class TRAVERSEFILE:
+
+    def __init__(self, inputtxt):
+        self.__parsefile(inputtxt)
+
+    def __parsefile(self, inputtxt):
+
+        self.li = []
+        with open(inputtxt, 'r') as r:
+            for line in r:
+                l = splitremove(line, ' ')
+                if len(l) != 8:
+                    logging.info(
+                        "Ignoring: {0} Number of fiels {1} is not 8".format(line, len(l)))
+                    continue
+                dirinfo = l[0]
+                path = l[7]
+                spath = splitremove(path, '/')
+                depth = len(spath)
+                l = (path, dirinfo.find('d') >= 0, depth, spath[depth-1])
+                self.li.append(l)
+
+    def getdir(self, dir):
+        res = []
+        slen = len(splitremove(dir, '/')) + 1
+        pattern = dir
+        if not dir.endswith('/') : pattern = dir + '/'
+
+        li = [e for e in self.li if (slen == e[2] and e[0].startswith(pattern))]
+        return map(lambda e: (e[3], e[1]), li)
+
+class CLASSHDFS:
+
+    """ Downloads wevHDFS directory
+
+    Attributes:
+       WEBHDFSHOST : WebHDFS hostname
+       WEBHDFSPORT: WebHDFS port (non-secure)
+       WEBHDFSUSER: HDFS user used to authenticated, example: hdfs
+       DIRREG: Optional, regular expression used to select a subset of files to download.
+               If not present - download all files
+       dryrun: boolean, if true then browse only the directory tree and list files to download without downloading the content
+               default: false, browse directory tree and download
+    """
+
+    def __init__(self, DIRREG=None, dryrun=False):
+        self.DIRREG = DIRREG
+        self.dryrun = dryrun
 
     def downloadstream(self, file, outfile):
         """ Download a single HDFS file
@@ -159,8 +186,32 @@ class HDFS:
                 os.makedirs(localpath)
             hdfsfile = os.path.join(userdir, dir, fname)
             localfile = os.path.join(localpath, fname)
-            logging.info("DOWNLOADING FILE: {0} => {1}".format(hdfsfile, localfile))
+            logging.info("DOWNLOADING FILE: {0} => {1}".format(
+                hdfsfile, localfile))
             if not self.dryrun:
                 self.downloadstream(hdfsfile, localfile)
         if empty:
             logging.info("HDFS {0} is empty, nothing to download".format(d))
+
+    def downloadhdfsdir(self, userdir, dir, outdir):
+        if self.dryrun: logging.info("DRYRUN - only traverse directory tree without downloading")
+        self.downloaddir(userdir,dir,outdir)
+        if self.dryrun: logging.info("DRYRUN - END")
+
+
+
+
+class DIRHDFS(CLASSHDFS, TRAVERSEHDFS):
+
+    def __init__(self, WEBHDFSHOST, WEBHDFSPORT, WEBHDFSUSER, DIRREG=None, dryrun=False):
+        TRAVERSEHDFS.__init__(self, WEBHDFSHOST, WEBHDFSPORT, WEBHDFSUSER)
+        CLASSHDFS.__init__(self, DIRREG, dryrun)
+
+class FILEHDFS(CLASSHDFS,  TRAVERSEFILE):
+
+    def __init__(self, txtfile,WEBHDFSHOST, WEBHDFSPORT, WEBHDFSUSER, DIRREG=None, dryrun=False):
+        self.WEBHDFSHOST = WEBHDFSHOST
+        self.WEBHDFSPORT = WEBHDFSPORT
+        self.WEBHDFSUSER = WEBHDFSUSER
+        TRAVERSEFILE.__init__(self, txtfile)
+        CLASSHDFS.__init__(self, DIRREG, dryrun)

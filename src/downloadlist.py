@@ -2,13 +2,13 @@
 """
 import argparse
 import logging
-from pars import addargs
 
 import sys
 import logging
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
 
-from proc.hdfs import DIRHDFS
+from proc.hdfs import FILEHDFS
+from pars import addargs
 
 
 def gettestargs(parser) :
@@ -21,16 +21,18 @@ def getargs(parser) :
 
 def readargs():
     parser = argparse.ArgumentParser(
-        description='Download HDFS using WEB REST/API')
+        description='Download HDFS tree using list of files')
+    parser.add_argument('input', nargs=1, help='Input file')
     addargs(parser)
 
 #    return gettestargs(parser)
     return getargs(parser)
 
 def main():
-    args =  readargs()
-    T = DIRHDFS(args.host[0], args.port[0], args.user[0],args.regexp,args.dryrun)
+    args = readargs()
+    T = FILEHDFS(args.input[0], args.host[0], args.port[0], args.user[0],args.regexp,args.dryrun)
     T.downloadhdfsdir(args.userdir[0], args.usersubdir[0], args.localdir[0])
+
 
 if __name__ == "__main__":
     # execute only if run as a script
