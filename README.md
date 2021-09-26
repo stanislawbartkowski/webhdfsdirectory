@@ -31,7 +31,7 @@ The list of HDFS directories to be downloaded can be specifield two ways. The to
 
 # Usage, list of of files is obtained using WebHDFS REST API
 
-> ./hdfsdownload.sh -u hdfsdir localdir (optional)dryrun) (optional) regular expression to select directories for downloading
+> ./hdfsdownload.sh -u hdfsdir localdir (optional)-dryrun (optional) regular expression to select directories for downloading
 
 Parameters description<br>
 
@@ -84,7 +84,7 @@ Dryrun<br>
 
 This option should be used if scanning remote HDFS directory using WebHDFS REST/API fails because of time-out. Firstly the list of files and directories should be obtained by running *hdfs dfs -ls -R* command and output should be shipped to the node where tools is executed.<br>
 <br>
-> ./hdfsdownload.sh -l textfile localdir (optional)dryrun) (optional) regular expression to select directories for downloading
+> ./hdfsdownload.sh -l textfile localdir (optional)-dryrun (optional) regular expression to select directories for downloading
 
 *textfile* should be the standard output of *hdfs dfs -ls* command.<br>
 
