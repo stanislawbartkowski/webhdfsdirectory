@@ -24,11 +24,14 @@ The application downloads HTTP directory recursively with subdirectories. It use
 | WEBHDFSUSER | HDFS user accessing HDFS | Added as &user.name=WEBHDFSUSER to RestAPI URL
 | LOGFILE | Log file path name | /tmp/hdfs/log.txt
 | USERDIR | Root directory in HDFS. Directory to download is a subdirectory of USERDIR. Parameter active only for -u | /warehouse
-| INPUTTXT | Output of *hdfs dfs -ls -R*. List of HDFS files to be downloaded. |  /home/sbartkowski/work/webhdfsdirectory/testdata/inputhdfs.txt
 
-# Usage 
+# Two modes
 
-> ./hdfsdownload.sh hdfsdir localdir (optional)dryrun) (optional) regular expression to select directories for downloading
+The list of HDFS directories to be downloaded can be specifield two ways. The tool can scan the remote HDFS tree using WebHDFS REST API or the list of files and directories can be read from text file. In the second case, the WebHDFS REST API is used to download HDFS file, the HDFS tree is not scanned.
+
+# Usage, list of of files is obtained using WebHDFS REST API
+
+> ./hdfsdownload.sh -u hdfsdir localdir (optional)dryrun) (optional) regular expression to select directories for downloading
 
 Parameters description<br>
 
@@ -55,7 +58,7 @@ HDFS tree<br>
 
 USERDIR=/user
 
-> ./hdfsdownload.sh sb /tmp/download
+> ./hdfsdownload.sh -u /user/sb /tmp/download
 
 
 The downloaded directory structure
@@ -75,7 +78,24 @@ The downloaded directory structure
 ```
 
 Dryrun<br>
-> ./hdfsdownload.sh sb /tmp/download 1
+> ./hdfsdownload.sh -u /user/sb /tmp/download 1
+
+# Usage, HDFS directory tree read from text file
+
+This option should be used if scanning remote HDFS directory using WebHDFS REST/API fails because of time-out. Firstly the list of files and directories should be obtained by running *hdfs dfs -ls -R* command and output should be shipped to the node where tools is executed.<br>
+<br>
+> ./hdfsdownload.sh -l textfile localdir (optional)dryrun) (optional) regular expression to select directories for downloading
+
+*textfile* should be the standard output of *hdfs dfs -ls* command.<br>
+
+Parameters description<br>
+
+| Parameter | Description | Sample value |
+| -------- | ---------- | ----------- |
+| textfile | Text file containing the list of HDFS tree | /tmp/hdfsoutput.txt
+| localdir | as above
+| dryrun (optional) | as above
+| regexp (optional) | as above
 
 # Several remarks
 
