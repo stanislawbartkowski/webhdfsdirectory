@@ -3,10 +3,10 @@ source ./commonproc.sh
 touchlogfile
 
 printhelp() {
-    echo "hdownload.sh Download HDFS directory tree using WebHDFS Rest/API (non-secure)"
+    echo "hdfsdownload.sh Download HDFS directory tree using WebHDFS Rest/API (non-secure)"
     echo 
     echo "Usage:"
-    echo "hdownload.sh -u/-l  hdfsdir localdir (optional)dryrun (optional)dir_regular_expression"
+    echo "hdfsdownload.sh -u/-l  hdfsdir localdir (optional)dryrun (optional)dir_regular_expression"
     echo "-u Access WebHDFS for directory list"
     echo "-l Take directory list from text file"
     echo "hdfsdir : HDFS subdir of WEBHDFSUSERDIR to download"
