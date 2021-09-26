@@ -7,7 +7,7 @@ printhelp() {
     echo 
     echo "Usage:"
     echo "hdfsdownload.sh -u/-l  hdfsdir localdir (optional)dryrun (optional)dir_regular_expression"
-    echo "-u Access WebHDFS for directory list"
+    echo "-u Scane remote WebHDFS directory"
     echo "-l Take directory list from text file"
     echo "hdfsdir : HDFS subdir of WEBHDFSUSERDIR to download"
     echo "localdir : local directory "
